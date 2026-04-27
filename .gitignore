@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Environments — SABSE ZAROORI
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+# Data (CSV badi hai, GitHub pe mat daalo)
+data/*.csv
+data/*.zip
+
+# IDE
+.vscode/
+.idea/
+
+# Models
+# models/*.pkl
