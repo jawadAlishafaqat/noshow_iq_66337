@@ -1,10 +1,9 @@
-# pyproject.toml
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
- 
+
 [project]
-name = "noshow-iq"
+name = "noshow-iq-66337"
 version = "0.1.0"
 description = "Patient appointment no-show prediction API"
 readme = "README.md"
@@ -19,9 +18,15 @@ dependencies = [
     "joblib>=1.3",
     "pydantic>=2.0",
 ]
- 
+
 [project.optional-dependencies]
 dev = ["pytest", "flake8", "httpx"]
- 
+
 [project.urls]
-Repository = "https://github.com/<user>/noshow-iq-<66337>"
+Repository = "https://github.com/jawadalishafaqat/noshow-iq-66337"
+
+[tool.hatch.build.targets.wheel]
+packages = ["noshow_iq"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
