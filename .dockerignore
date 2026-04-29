@@ -1,0 +1,13 @@
+__pycache__
+*.pyc
+.git
+.github
+.venv
+venv
+tests
+notebooks
+data
+*.md
+.env*
+.pytest_cache
+dist
