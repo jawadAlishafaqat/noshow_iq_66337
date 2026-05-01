@@ -7,12 +7,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN pip install --user --no-cache-dir -r requirements.txt && \
+    find /root/.local -type f -name "*.py[co]" -delete && \
+    find /root/.local -type d -name "__pycache__" -delete && \
+    find /root/.local -type f -name "*.dist-info/RECORD" -delete && \
+    find /root/.local -type f -name "*.dist-info/*.txt" -delete && \
+    find /root/.local -type f -name "*.dist-info/top_level.txt" -delete
 
 # ---------- runtime stage ----------
-FROM python:3.11-slim AS runtime
+FROM python:3.11-slim
 
-RUN useradd --create-home --shell /bin/bash app
+RUN useradd --create-home --shell /bin/bash app && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /home/app
 
 COPY --from=builder /root/.local /home/app/.local
