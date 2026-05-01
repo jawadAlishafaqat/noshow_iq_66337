@@ -1,82 +1,13 @@
-import os
-from datetime import datetime, timezone
-from pymongo import MongoClient, DESCENDING
-
-_client = None
-
-
 def _get_db():
     global _client
     if _client is None:
         uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017')
-        _client = MongoClient(uri)
+        _client = MongoClient(
+            uri,
+            tls=True,
+            tlsAllowInvalidCertificates=True,
+            serverSelectionTimeoutMS=30000,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=30000
+        )
     return _client['noshow_iq']
-
-
-def log_prediction(raw_input, cleaned, result):
-    _get_db().predictions.insert_one({
-        'timestamp': datetime.now(timezone.utc),
-        'raw_input': raw_input,
-        'cleaned_features': cleaned,
-        **result,
-    })
-
-
-def log_training_run(size, technique, metrics):
-    _get_db().training_runs.insert_one({
-        'timestamp': datetime.now(timezone.utc),
-        'training_size': size,
-        'imbalance_technique': technique,
-        'metrics': metrics,
-    })
-
-
-def last_n_predictions(n=20):
-    docs = list(
-        _get_db().predictions.find()
-        .sort('timestamp', DESCENDING).limit(n)
-    )
-    for d in docs:
-        d['_id'] = str(d['_id'])
-        d['timestamp'] = d['timestamp'].isoformat()
-    return docs
-
-
-def aggregate_stats():
-    db = _get_db()
-    pipeline = [
-        {'$facet': {
-            'totals': [
-                {'$group': {
-                    '_id': None,
-                    'total_predictions': {'$sum': 1},
-                    'high_risk_count': {
-                        '$sum': {'$cond': [
-                            {'$eq': ['$risk_level', 'HIGH']}, 1, 0
-                        ]}
-                    },
-                    'low_risk_count': {
-                        '$sum': {'$cond': [
-                            {'$eq': ['$risk_level', 'LOW']}, 1, 0
-                        ]}
-                    },
-                    'average_probability': {'$avg': '$probability'},
-                }}
-            ],
-        }}
-    ]
-    [agg] = list(db.predictions.aggregate(pipeline))
-    totals = agg['totals'][0] if agg['totals'] else {}
-    last_run = db.training_runs.find_one(sort=[('timestamp', -1)])
-    last_trained = (
-        last_run['timestamp'].isoformat() if last_run else None
-    )
-    return {
-        'total_predictions': totals.get('total_predictions', 0),
-        'high_risk_count': totals.get('high_risk_count', 0),
-        'low_risk_count': totals.get('low_risk_count', 0),
-        'average_probability': round(
-            totals.get('average_probability') or 0, 3
-        ),
-        'last_trained': last_trained,
-    }
