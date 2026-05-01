@@ -1,5 +1,6 @@
 # tests/test_model.py
 from unittest.mock import patch
+import numpy as np
 from noshow_iq import model
 
 
@@ -9,7 +10,7 @@ def test_predict_high_risk(mock_load):
     class MockModel:
         def predict_proba(self, X):
             # Force the mock model to predict an 85% chance of a no-show
-            return [[0.15, 0.85]]
+            return np.array([[0.15, 0.85]])
 
     mock_load.return_value = (
         MockModel(),
@@ -29,7 +30,7 @@ def test_predict_low_risk(mock_load):
     class MockModel:
         def predict_proba(self, X):
             # Force the mock model to predict a 10% chance of a no-show
-            return [[0.90, 0.10]]
+            return np.array([[0.90, 0.10]])
 
     mock_load.return_value = (
         MockModel(),
