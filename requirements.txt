@@ -11,3 +11,4 @@ pytest-asyncio
 httpx
 flake8
 requests
+starlette==0.36.3
