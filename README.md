@@ -1,3 +1,9 @@
+# NoShowIQ
+
+![CI](https://github.com/jawadalishafaqat/noshow_iq_66337/actions/workflows/ci-cd.yml/badge.svg)
+
+CI/CD Status: Passing  
+License: MIT
 ---
 title: NoShowIQ
 emoji: 🏥
