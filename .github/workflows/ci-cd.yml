@@ -42,4 +42,4 @@ jobs:
       - name: Trigger Hugging Face Space rebuild
         run: |
           curl -X POST "https://huggingface.co/api/spaces/jawad209/noshow-iq/build" \
-          -H "Authorization: Bearer ${{ secrets.HF_TOKEN }}"cls
+          -H "Authorization: Bearer ${{ secrets.HF_TOKEN }}"
