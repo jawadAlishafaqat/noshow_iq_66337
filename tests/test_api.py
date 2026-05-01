@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import patch
 from noshow_iq.api import app
 
-client = TestClient(app)
+client = TestClient(app=app)
 
 
 def test_health_returns_200():
