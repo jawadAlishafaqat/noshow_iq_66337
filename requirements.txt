@@ -10,3 +10,4 @@ pydantic==2.0.3
 python-dotenv==1.0.0
 anyio==4.3.0
 requests==2.31.0
+flake8==6.0.0
