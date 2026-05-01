@@ -1,25 +1,11 @@
 # noshow_iq/api.py
-import os
 from datetime import datetime, timezone
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
 from . import model, db
 from .preprocess import prepare_single
+from .schema import Appointment
 
 app = FastAPI(title='NoShowIQ', version='1.0')
-
-
-class Appointment(BaseModel):
-    Gender: str
-    Age: int = Field(ge=0, le=110)
-    scheduled_day: str
-    appointment_day: str
-    Scholarship: int = 0
-    hypertension: int = 0
-    Diabetes: int = 0
-    Alcoholism: int = 0
-    handicap: int = 0
-    sms_received: int = 0
 
 
 @app.get('/health')
