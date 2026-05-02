@@ -1,9 +1,3 @@
-# NoShowIQ
-
-![CI](https://github.com/jawadalishafaqat/noshow_iq_66337/actions/workflows/ci-cd.yml/badge.svg)
-
-CI/CD Status: Passing  
-License: MIT
 ---
 title: NoShowIQ
 emoji: 🏥
@@ -13,6 +7,13 @@ sdk: docker
 app_port: 7860
 pinned: false
 ---
+
+# NoShowIQ
+
+![CI](https://github.com/jawadalishafaqat/noshow_iq_66337/actions/workflows/ci-cd.yml/badge.svg)
+
+CI/CD Status: Passing  
+License: MIT
 
 # NoShowIQ
 
